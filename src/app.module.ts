@@ -3,6 +3,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+
+import { UserBugsModule } from './user_bugs/user_bugs.module';
+import { UserBug } from './user_bugs/entities/user_bug.entity';
+
 import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
 
 import { StoryModule } from './story/story.module';
@@ -19,6 +23,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,12 +34,15 @@ import { Task } from './tasks/entities/task.entity';
 
       password: 'Password@12345',
       database: 'agile',
+
+   
+
       entities: [User, ProjectTaskStatus],
       synchronize: true,
     }),
     UserModule,
     ProjectTaskStatusModule,
-
+  UserBugsModule,
 
     ProjectModule,
 
