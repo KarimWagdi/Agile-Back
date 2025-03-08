@@ -16,18 +16,18 @@ import { Department } from './departments/entities/department.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
+import * as dotenv from 'dotenv';
 
-
-
+dotenv.config()
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Password@12345',
-      database: 'agile',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [User, ProjectTaskStatus, UserBug, Project, ProjectUser, Department, Task, Story],
       synchronize: true,
     }),
