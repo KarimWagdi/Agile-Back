@@ -5,6 +5,20 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
 
+import { StoryModule } from './story/story.module';
+import { Story } from './story/entities/story.entity';
+
+import { ProjectModule } from './project/project.module';
+
+import { ProjectUserModule } from './project_user/project_user.module';
+import { ProjectUser } from './project_user/entities/project_user.entity';
+import { DepartmentsModule } from './departments/departments.module';
+import { Department } from './departments/entities/department.entity';
+
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/entities/task.entity';
+
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -12,13 +26,23 @@ import { ProjectTaskStatusModule } from './project_task_status/project_task_stat
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Password@123',
+
+      password: 'Password@12345',
       database: 'agile',
       entities: [User, ProjectTaskStatus],
       synchronize: true,
     }),
     UserModule,
     ProjectTaskStatusModule,
-  ]
+
+
+    ProjectModule,
+
+    ProjectUserModule,
+    DepartmentsModule,
+    TasksModule,
+  ],
+
+
 })
 export class AppModule {}
