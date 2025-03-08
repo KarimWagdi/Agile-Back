@@ -1,7 +1,9 @@
+import { ProjectTaskStatus } from './project_task_status/entities/project_task_status.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
 
 import { StoryModule } from './story/story.module';
 import { Story } from './story/entities/story.entity';
@@ -25,14 +27,14 @@ import { Task } from './tasks/entities/task.entity';
       port: 3306,
       username: 'root',
 
-
-      password: '852654As',
+      password: 'Password@12345',
       database: 'agile',
-
-      entities: [User, ProjectUser, Department],
+      entities: [User, ProjectTaskStatus],
       synchronize: true,
     }),
     UserModule,
+    ProjectTaskStatusModule,
+
 
     ProjectModule,
 
