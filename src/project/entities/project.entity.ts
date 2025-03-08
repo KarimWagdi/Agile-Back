@@ -1,5 +1,8 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ProjectTaskStatus } from "src/project_task_status/entities/project_task_status.entity";
+import { ProjectUser } from "src/project_user/entities/project_user.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+@Entity()
 export class Project {
     @PrimaryGeneratedColumn()
     id: number;
@@ -24,4 +27,11 @@ export class Project {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @OneToMany(()=> ProjectUser, projectUser => projectUser.project_id)
+    projectUsers: ProjectUser[];
+
+    @OneToMany(()=> ProjectTaskStatus, projectTasks => projectTasks.project_id)
+    projectTasks: ProjectUser[];
+    
 }
