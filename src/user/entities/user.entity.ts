@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Department } from "src/departments/entities/department.entity";
+import { ProjectUser } from "src/project_user/entities/project_user.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserGender{
     Male = 'male',
@@ -10,8 +12,9 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    department_id: number;
+    @ManyToOne(()=> Department, department => department.id)
+    @JoinColumn({ name: "department_id"})
+    department_id: Department;
     
     @Column()
     username: string;
@@ -45,4 +48,9 @@ export class User {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @ManyToOne(()=> ProjectUser, projectUser => projectUser.user_id)
+    projectUsers: ProjectUser[];
+
+    
 }
