@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { ProjectModule } from './project/project.module';
 
 import { ProjectUserModule } from './project_user/project_user.module';
 import { ProjectUser } from './project_user/entities/project_user.entity';
@@ -26,10 +27,14 @@ import { Task } from './tasks/entities/task.entity';
       synchronize: true,
     }),
     UserModule,
+
+    ProjectModule,
+
     ProjectUserModule,
     DepartmentsModule,
     TasksModule,
   ],
+
 
 })
 export class AppModule {}
