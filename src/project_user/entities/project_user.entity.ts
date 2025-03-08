@@ -1,23 +1,36 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Project } from 'src/project/entities/project.entity';
+import { User } from 'src/user/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class ProjectUser {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    project_id: number;
-    
-    @Column()
-    user_id: number;
+  @ManyToOne(() => Project, (project) => project.projectUsers)
+  @JoinColumn({ name: 'project_id' })
+  project_id: Project;
 
-    @CreateDateColumn()
-    createdAt: Date;
-    
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @ManyToOne(() => User, (user) => user.projectUsers)
+  @JoinColumn({ name: 'user_id' })
+  user_id: User;
 
-    @DeleteDateColumn()
-    deletedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
