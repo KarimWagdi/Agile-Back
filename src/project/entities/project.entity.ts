@@ -31,7 +31,7 @@ export class Project {
     @OneToMany(()=> ProjectUser, projectUser => projectUser.project_id)
     projectUsers: ProjectUser[];
 
-    @OneToMany(()=> ProjectTaskStatus, projectTasks => projectTasks.project_id)
-    projectTasks: ProjectUser[];
-    
+    @OneToMany(()=> ProjectTaskStatus, projectTaskStatus => projectTaskStatus.project_id)
+    projectTaskStatus: ProjectTaskStatus[];
+
 }
