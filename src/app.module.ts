@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+
+import { StoryModule } from './story/story.module';
+import { Story } from './story/entities/story.entity';
+
 import { ProjectModule } from './project/project.module';
 
 import { ProjectUserModule } from './project_user/project_user.module';
@@ -20,6 +24,8 @@ import { Task } from './tasks/entities/task.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',
+
+
       password: '852654As',
       database: 'agile',
 
