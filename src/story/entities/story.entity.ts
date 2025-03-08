@@ -1,6 +1,6 @@
 import { type } from "os";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Task } from "src/tasks/entities/task.entity";
 
 @Entity()
 export class Story {
@@ -18,4 +18,16 @@ export class Story {
     
       @Column()
         priority: number;
+        
+       @CreateDateColumn()
+        createdAt: Date;
+       
+       @UpdateDateColumn()
+       updatedAt: Date;
+    
+      @DeleteDateColumn()
+      deletedAt: Date;
+       
+      @OneToMany(() => Task, (task) => task.userStory_id)
+        tasks: Task[];
 }

@@ -1,11 +1,11 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+@Entity()
 export class Project {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    name: string;
+    name: string
     
     @Column()
     start_date: Date;
