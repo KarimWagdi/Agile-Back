@@ -20,9 +20,6 @@ export class Project {
 
 
   @Column()
-  start_date: Date;
-
-  @Column()
   end_date: Date;
 
   @Column()
