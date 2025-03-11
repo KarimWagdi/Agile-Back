@@ -1,3 +1,4 @@
+
 import { Task } from 'src/tasks/entities/task.entity';
 import {
   Column,
@@ -11,6 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+
 @Entity()
 export class Story {
   @PrimaryGeneratedColumn()
@@ -19,15 +21,25 @@ export class Story {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
-
-  @Column()
-  story_point: string;
-
-  @Column()
-  priority: number;
-
-  @OneToMany(() => Task, (task) => task.userStory_id)
-  task: Task[];
+  
+     @Column()
+     description: string;
+   
+     @Column()
+      story_point: string;
+    
+      @Column()
+        priority: number;
+        
+       @CreateDateColumn()
+        createdAt: Date;
+       
+       @UpdateDateColumn()
+       updatedAt: Date;
+    
+      @DeleteDateColumn()
+      deletedAt: Date;
+       
+      @OneToMany(() => Task, (task) => task.userStory_id)
+        tasks: Task[];
 }

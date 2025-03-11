@@ -60,4 +60,5 @@ export class Task {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
+
 }
