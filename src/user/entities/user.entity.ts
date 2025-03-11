@@ -1,17 +1,8 @@
-import { Department } from 'src/departments/entities/department.entity';
-import { ProjectUser } from 'src/project_user/entities/project_user.entity';
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+
+import { Department } from "src/departments/entities/department.entity";
+import { ProjectUser } from "src/project_user/entities/project_user.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+
 
 export enum UserGender {
   Male = 'male',
@@ -20,46 +11,50 @@ export enum UserGender {
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
 
-  @ManyToOne(() => Department, (department) => department.id)
-  @JoinColumn({ name: 'department_id' })
-  department_id: Department;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  username: string;
+    @ManyToOne(()=> Department, department => department.id)
+    @JoinColumn({ name: "department_id"})
+    department_id: Department;
+    
+    @Column()
+    username: string;
+    
+    @Column()
+    password: string;
+    
+    @Column()
+    email: string;
+    
+    @Column({type: 'enum', enum:UserGender, default:UserGender.Male})
+    gender: string;
 
-  @Column()
-  password: string;
+    @Column()
+    birth_date: Date;
 
-  @Column()
-  email: string;
+    @Column({ default: false })
+    is_active: boolean;
 
-  @Column({ type: 'enum', enum: UserGender, default: UserGender.Male })
-  gender: string;
+    @Column({ default: '' })
+    profile: string;
 
-  @Column()
-  birth_date: Date;
+    @Column()
+    rate: number;
 
-  @Column({ default: false })
-  is_active: boolean;
+    @CreateDateColumn()
+    createdAt: Date;
+    
+    @UpdateDateColumn()
+    updatedAt: Date;
 
-  @Column({ default: '' })
-  profile: string;
+    @DeleteDateColumn()
+    deletedAt: Date;
 
-  @Column()
-  rate: number;
+    @OneToMany(()=> ProjectUser, projectUser => projectUser.user_id)
+    projectUsers: ProjectUser[];
 
-  @CreateDateColumn()
-  createdAt: Date;
+    
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
-  @OneToMany(() => ProjectUser, (projectUser) => projectUser.user_id)
-  projectUsers: ProjectUser[];
 }
