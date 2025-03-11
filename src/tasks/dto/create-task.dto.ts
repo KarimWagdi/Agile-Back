@@ -8,17 +8,19 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Priority } from '../entities/task.entity';
+import { Department } from 'src/departments/entities/department.entity';
+import { Story } from 'src/story/entities/story.entity';
 
 export class CreateTaskDto {
-  // @IsNotEmpty()
-  // @IsInt()
-  // @ApiProperty({ example: 1, description: 'department_id' })
-  // department_id: number;
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ example: 1, description: 'department_id' })
+  department_id: Department;
 
-  // @IsNotEmpty()
-  // @IsInt()
-  // @ApiProperty({ example: 1, description: 'userStory_id' })
-  // userStory_id: number;
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ example: 1, description: 'userStory_id' })
+  userStory_id: Story;
 
   @IsOptional()
   @IsInt()
