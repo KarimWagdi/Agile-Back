@@ -9,6 +9,10 @@ export enum UserGender {
   Female = 'female',
 }
 
+export enum UserRole{
+  Manager = 'manager',
+  Developer = 'developer'
+}
 @Entity()
 export class User {
 
@@ -29,7 +33,7 @@ export class User {
     email: string;
     
     @Column({type: 'enum', enum:UserGender, default:UserGender.Male})
-    gender: string;
+    gender: UserGender;
 
     @Column()
     birth_date: Date;
@@ -43,6 +47,12 @@ export class User {
     @Column()
     rate: number;
 
+    @Column()
+    accessToken: string;
+    
+    @Column({ type: 'enum', enum: UserRole, default: UserRole.Developer})
+    role: UserRole;
+
     @CreateDateColumn()
     createdAt: Date;
     
@@ -54,7 +64,4 @@ export class User {
 
     @OneToMany(()=> ProjectUser, projectUser => projectUser.user_id)
     projectUsers: ProjectUser[];
-
-    
-
 }
