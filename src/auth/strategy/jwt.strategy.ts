@@ -4,11 +4,13 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { UserService } from "src/user/user.service";
 
 @Injectable()
+
 export class JwtStrategy extends PassportStrategy(Strategy){
     constructor(
         @Inject(forwardRef(() => UserService))
         private readonly userService: UserService,
     ){
+
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.jwtSecret,
@@ -16,6 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
             passReqToCallback: true,
         });
     }
+
 
     async validate(request: Request, validationPayload:{id:number}){
         const jwtToken = this.extractJwtToken(request); //
@@ -37,4 +40,5 @@ export class JwtStrategy extends PassportStrategy(Strategy){
             return null;
         }
     }
+
 }

@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Reflector } from "@nestjs/core";
 
 @Injectable()
+
 export class RolesGuard implements CanActivate{
     constructor(private reflector: Reflector){}
     canActivate(context: ExecutionContext): boolean{
@@ -20,3 +21,4 @@ export class RolesGuard implements CanActivate{
         return true;
     }
 }
+

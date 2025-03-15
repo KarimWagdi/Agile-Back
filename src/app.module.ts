@@ -21,6 +21,10 @@ import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
 
+import { UserAttachmentModule } from './user-attachment/user-attachment.module';
+import { UserModule } from './attatch/user/user.module';
+
+
 import { ProjectDepartmentsModule } from './project_departments/project_departments.module';
 
 import { UserTasksModule } from './user-tasks/user-tasks.module';
@@ -64,6 +68,7 @@ dotenv.config();
     DepartmentsModule,
     TasksModule,
     StoryModule,
+    UserAttachmentModule,
     ProjectDepartmentsModule,
     UserTasksModule,
 
