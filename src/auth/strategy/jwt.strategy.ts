@@ -5,11 +5,12 @@ import { UserService } from "src/user/user.service";
 
 @Injectable()
 
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy){
     constructor(
         @Inject(forwardRef(() => UserService))
         private readonly userService: UserService,
-    ) {
+    ){
+
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.jwtSecret,
@@ -17,27 +18,27 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             passReqToCallback: true,
         });
     }
-    async validate(request: Request, validationPayload: { id: number }) {
-        const jwtToken = this.extractJwtToken(request);
-        if (!jwtToken) {
+
+
+    async validate(request: Request, validationPayload:{id:number}){
+        const jwtToken = this.extractJwtToken(request); //
+        if(!jwtToken){
             throw new UnauthorizedException("invalid JWT token");
         }
-    
         const user = await this.userService.findOne(validationPayload.id);
-        if (!user || user.accessToken !== jwtToken) {
+        if(!user || user.accessToken !== jwtToken){
             throw new UnauthorizedException("invalid user or token");
         }
-    
-        return { ...user, role: user.role };
+        return {...user, role: user.role};
     }
-    
-    private extractJwtToken(request: any): string | null {
+
+    private extractJwtToken(request: any): string | null{ 
         const token = request.headers.authorization;
-        if (token && token.startsWith("Bearer ")) {
-            return token.slice(7, token.length);
-        } else {
+        if(token && token.startsWith('Bearer ')){
+            return token.substring(7);
+        }else{
             return null;
         }
     }
-    
+
 }

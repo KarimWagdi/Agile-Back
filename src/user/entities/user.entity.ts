@@ -1,7 +1,6 @@
 
 import { Department } from "src/departments/entities/department.entity";
 import { ProjectUser } from "src/project_user/entities/project_user.entity";
-
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserGender {
@@ -14,8 +13,13 @@ export enum UserRole {
 }
 
 
+export enum UserRole{
+  Manager = 'manager',
+  Developer = 'developer'
+}
 @Entity()
 export class User {
+    [x: string]: any;
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -34,7 +38,7 @@ export class User {
     email: string;
     
     @Column({type: 'enum', enum:UserGender, default:UserGender.Male})
-    gender: string;
+    gender: UserGender;
 
     @Column()
     birth_date: Date;
@@ -47,6 +51,12 @@ export class User {
 
     @Column()
     rate: number;
+
+    @Column()
+    accessToken: string;
+    
+    @Column({ type: 'enum', enum: UserRole, default: UserRole.Developer})
+    role: UserRole;
 
     @CreateDateColumn()
     createdAt: Date;
@@ -66,4 +76,5 @@ export class User {
 
     @OneToMany(()=> ProjectUser, projectUser => projectUser.user_id)
     projectUsers: ProjectUser[];
+
 }
