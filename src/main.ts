@@ -19,15 +19,18 @@ async function bootstrap() {
   });
   
   const config = new DocumentBuilder()
-   .setTitle('Agile API')
-   .setDescription('API for Agile project management')
-   .setVersion('1.0')
-   .addBearerAuth()
-   .build();
+    .setTitle('Agile API')
+    .setDescription('API for Agile project management')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
 
    const document = SwaggerModule.createDocument(app, config);
    SwaggerModule.setup('api', app, document);
    
+
   await app.listen(process.env.APP_PORT);
+
 }
 bootstrap();
