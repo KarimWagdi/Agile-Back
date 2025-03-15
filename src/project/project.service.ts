@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from './entities/project.entity';
 import { request } from 'http';
+import { error } from 'console';
+import { promises } from 'dns';
 
 @Injectable()
 export class ProjectService {
@@ -22,24 +24,61 @@ export class ProjectService {
     }
   }
 
-  findAll() {
-    return `This action returns all project`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
-  }
-
-  async update(id: number, updateProjectDto: UpdateProjectDto) {
+  async findAll(){
     try{
-      return `This action updates a #${id} project`;
+      const projects = await this.projectRepository.find();
+      return projects;
     }
     catch(error){
       console.log(error)
     }
   }
 
-  remove(id: number) {
+  async findOne(id: number){
+    try{
+      const project = await this.projectRepository.findOne({ where: { id } });
+
+    if (!project) {
+      throw new error(`Project with ID ${id} not found`);
+    }else{
+      return project;
+    }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  async update(id: number, updateProjectDto: UpdateProjectDto) {
+    try{
+      const projectToUpdate = await this.projectRepository.findOne({ where: { id } });
+      
+      if (!projectToUpdate) {
+        throw new error(`Project with ID ${id} not found`);
+      }else{
+      const updatedProject = await this.projectRepository.update(id, updateProjectDto)
+      return updatedProject
+      }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  async remove(id: number) {
+    try{
+    const projectToDelete = await this.projectRepository.findOne({ where: { id } });
+
+    if (!projectToDelete) {
+      throw new error(`Project with ID ${id} not found`);
+    }
+    else{
+      await this.projectRepository.delete(id);
+    }
     return `This action removes a #${id} project`;
+  }
+  catch(error){
+    console.log(error);
+  }
   }
 }
