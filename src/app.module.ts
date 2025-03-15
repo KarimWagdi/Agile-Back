@@ -20,11 +20,17 @@ import { Department } from './departments/entities/department.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
+
+import { ProjectDepartmentsModule } from './project_departments/project_departments.module';
+
 import { UserTasksModule } from './user-tasks/user-tasks.module';
+
 import * as dotenv from 'dotenv';
+import { ProjectDepartment } from './project_departments/entities/project_department.entity';
 
 
 dotenv.config();
+
 
 @Module({
   imports: [
@@ -44,11 +50,13 @@ dotenv.config();
         Department,
         Task,
         Story,
+        ProjectDepartment,
+
       ],
       synchronize: true,
     }),
     UserModule,
-      RateModule,
+    RateModule,
     ProjectTaskStatusModule,
     UserBugsModule,
     ProjectModule,
@@ -56,7 +64,9 @@ dotenv.config();
     DepartmentsModule,
     TasksModule,
     StoryModule,
+    ProjectDepartmentsModule,
     UserTasksModule,
+
   ],
 })
 export class AppModule {}
