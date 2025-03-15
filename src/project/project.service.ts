@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from './entities/project.entity';
 import { request } from 'http';
+import { error } from 'console';
 
 @Injectable()
 export class ProjectService {
@@ -15,31 +16,68 @@ export class ProjectService {
   async create(createProjectDto: CreateProjectDto) {
     try{
       const newProject = await this.projectRepository.save({...createProjectDto,});
-      return 'This action adds a new project';
+      return newProject;
     }
     catch(error){
       console.log(error)
     }
   }
 
-  findAll() {
-    return `This action returns all project`;
+  async findAll(){
+    try{
+      const projects = await this.projectRepository.find();
+      return projects;
+    }
+    catch(error){
+      console.log(error)
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findOne(id: number){
+    try{
+      const project = await this.projectRepository.findOne({ where: { id } });
+
+    if (!project) {
+      throw new error(`Project with ID ${id} not found`);
+    }else{
+      return project;
+    }
+    }
+    catch(error){
+      console.log(error)
+    }
   }
 
   async update(id: number, updateProjectDto: UpdateProjectDto) {
     try{
-      return `This action updates a #${id} project`;
+      const projectToUpdate = await this.projectRepository.findOne({ where: { id } });
+      
+      if (!projectToUpdate) {
+        throw new error(`Project with ID ${id} not found`);
+      }else{
+      const updatedProject = await this.projectRepository.update(id, updateProjectDto)
+      return updatedProject
+      }
     }
     catch(error){
       console.log(error)
     }
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    try{
+    const projectToDelete = await this.projectRepository.findOne({ where: { id } });
+
+    if (!projectToDelete) {
+      throw new error(`Project with ID ${id} not found`);
+    }
+    else{
+      await this.projectRepository.delete(id);
+    }
     return `This action removes a #${id} project`;
+  }
+  catch(error){
+    console.log(error);
+  }
   }
 }

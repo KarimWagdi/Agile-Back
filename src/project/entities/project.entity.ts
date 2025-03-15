@@ -1,4 +1,3 @@
-
 import { ProjectDepartment } from 'src/project_departments/entities/project_department.entity';
 import { ProjectTaskStatus } from 'src/project_task_status/entities/project_task_status.entity';
 import { ProjectUser } from 'src/project_user/entities/project_user.entity';
@@ -7,6 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
