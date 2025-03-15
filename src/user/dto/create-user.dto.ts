@@ -1,12 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { UserGender } from "../entities/user.entity";
+import { Department } from "src/departments/entities/department.entity";
 
 export class CreateUserDto {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({example: 1, description: "department_id" })
-    department_id: number;
+    department_id: Department;
         
     @IsString()
     @IsNotEmpty()
