@@ -47,7 +47,7 @@ export class User {
     @Column()
     rate: number;
 
-    @Column()
+    @Column({nullable: true})
     accessToken: string;
     
     @Column({ type: 'enum', enum: UserRole, default: UserRole.Developer})

@@ -3,9 +3,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+import { LoginDto } from './dto/login-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -20,11 +21,9 @@ export class UserService {
       const hashPass = await bcrypt.hash(createUserDto.password, 10);
       const newUser = await this.userRepository.save({...createUserDto, password: hashPass });
       const access_token = await this.jwtService.generateAccessToken(newUser.id)
-      
-      return {newUser, access_token};
-
+      return newUser
     }catch(error){
-      console.log(error);
+      return error
     }
   }
 
@@ -44,8 +43,21 @@ export class UserService {
     }
   }
 
-  async logIn(){
-    
+  async logIn(loginDto: LoginDto){
+    try{
+      const user = await this.userRepository.findOne({where:{email:loginDto.email}})
+      if(!user){
+        return "email not found"
+      }
+      const correctPass = await bcrypt.compare(loginDto.password,user.password);
+      if(!correctPass){
+        return "wrong password"
+      }
+      const accessToken = await this.jwtService.generateAccessToken({id: user.id})
+      return {accessToken, user}
+    }catch(err){
+      return err 
+    }
   }
 
   findAll() {
