@@ -17,6 +17,7 @@ export class TasksService {
       const newTask = await this.tasksRepository.save(createTaskDto);
       return newTask;
     } catch (error) {
+      console.log(error);
       return error;
     }
   }
@@ -26,7 +27,8 @@ export class TasksService {
       const tasks = await this.tasksRepository.find();
       return tasks;
     } catch (error) {
-      return error;
+      console.log(error);
+      // return error;
     }
   }
 
@@ -38,7 +40,8 @@ export class TasksService {
       }
       return task;
     } catch (error) {
-      return error;
+      console.log(error);
+      // return error;
     }
   }
 
@@ -51,7 +54,8 @@ export class TasksService {
       const updatedTask = await this.tasksRepository.update(id, updateTaskDto);
       return updatedTask;
     } catch (error) {
-      return error;
+      console.log(error);
+      // return error;
     }
   }
 
@@ -64,7 +68,8 @@ export class TasksService {
       const deletedTask = this.tasksRepository.softDelete(id);
       return deletedTask;
     } catch (error) {
-      return error;
+      console.log(error);
+      // return error;
     }
   }
 }

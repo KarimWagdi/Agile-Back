@@ -1,9 +1,13 @@
+import { Department } from 'src/departments/entities/department.entity';
+import { Story } from 'src/story/entities/story.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -19,14 +23,14 @@ export class Task {
   @PrimaryGeneratedColumn()
   id: number;
   // One to one relation with department, need to import the department and check for the reverse relation
-  // @OneToOne(() => Department, (department) => department.id)
-  // @JoinColumn({ name: 'department_id', referencedColumnName: 'id' })
-  // department_id: Department;
+  @ManyToOne(() => Department, (department) => department.id)
+  @JoinColumn({ name: 'department_id', referencedColumnName: 'id' })
+  department_id: Department;
 
   // One to one relation with UserStory, need to import the UserStory and check for the reverse relation
-  // @OneToOne(() => UserStory, (userStory) => userStory.id)
-  // @JoinColumn({ name: 'userStory_id', referencedColumnName: 'id' })
-  // userStory_id: UserStory;
+  @ManyToOne(() => Story, (userStory) => userStory.id)
+  @JoinColumn({ name: 'userStory_id', referencedColumnName: 'id' })
+  userStory_id: Story;
 
   //inverse relation with user_tasks needed
 
@@ -56,4 +60,5 @@ export class Task {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
+
 }

@@ -3,6 +3,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+
+import { RateModule } from './rate/rate.module';
+import { Rate } from './rate/entities/rate.entity';
+
 import { UserBugsModule } from './user_bugs/user_bugs.module';
 import { UserBug } from './user_bugs/entities/user_bug.entity';
 import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
@@ -18,7 +22,9 @@ import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
 import * as dotenv from 'dotenv';
 
+
 dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -41,6 +47,7 @@ dotenv.config();
       synchronize: true,
     }),
     UserModule,
+      RateModule,
     ProjectTaskStatusModule,
     UserBugsModule,
     ProjectModule,

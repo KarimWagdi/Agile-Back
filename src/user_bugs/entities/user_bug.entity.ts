@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Task } from 'src/tasks/entities/task.entity';
 
 @Entity('user_bugs')
 export class UserBug {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    user_task_id: number;
 
     @Column()
     story_point: number;
@@ -23,9 +21,21 @@ export class UserBug {
     @Column()
     comment: string;
 
-    @Column({ type:'longtext' })
+    @Column({ type: 'longtext' })
     description: string; 
 
-    @Column()
+    @Column({ nullable: true }) 
     bug_status_id: number;
+
+    @CreateDateColumn()
+        createdAt: Date;
+        
+    @UpdateDateColumn()
+        updatedAt: Date;
+    
+    @DeleteDateColumn()
+        deletedAt: Date;
+
+    @ManyToOne(() => Task, (userTask) => userTask.id)
+    userTask_id: Task;
 }
