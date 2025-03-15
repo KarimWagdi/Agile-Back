@@ -13,7 +13,7 @@ export class Rate {
 
     @ManyToOne(()=> User, user => user.id)
     @JoinColumn({name: "rated_by_id"})
-    rated_by_id: number;
+    rated_by_id: User;
     
     @Column()
     rate: number;

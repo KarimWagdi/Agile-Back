@@ -14,7 +14,7 @@ export class RateService {
     ){}
   async create(createRateDto: CreateRateDto) {
     try{
-      const newRate = await this.userRepository.save({...createRateDto})
+      const newRate = await this.userRepository.save(createRateDto)
       return newRate;
     }catch(err){
       console.log(err);

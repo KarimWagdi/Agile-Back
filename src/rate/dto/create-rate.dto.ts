@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsDateString, IsEmail, IsEnum, IsNotEmpty, isNumber, IsNumber, IsOptional, IsString } from "class-validator";
+import { User } from "src/user/entities/user.entity";
 
 export class CreateRateDto {
     @IsNotEmpty()
@@ -20,6 +21,11 @@ export class CreateRateDto {
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty()
-    user_id: number;
+    user_id: User;
+
+    @IsNotEmpty()
+    @IsNumber()
+    @ApiProperty()
+    rated_by_user_id: User;
 
 }
