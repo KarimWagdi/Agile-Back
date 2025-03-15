@@ -8,6 +8,11 @@ export enum UserGender {
   Male = 'male',
   Female = 'female',
 }
+export enum UserRole {
+  Manager = 'manager',
+  Developer = 'developer'
+}
+
 
 @Entity()
 export class User {
@@ -52,9 +57,13 @@ export class User {
     @DeleteDateColumn()
     deletedAt: Date;
 
+    @Column()
+    accessToken: string;
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.Developer })
+    role: UserRole;
+
+
     @OneToMany(()=> ProjectUser, projectUser => projectUser.user_id)
     projectUsers: ProjectUser[];
-
-    
-
 }
