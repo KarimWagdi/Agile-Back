@@ -1,7 +1,8 @@
+import { ProjectTaskStatus } from 'src/project_task_status/entities/project_task_status.entity';
 import { Task } from 'src/tasks/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
 import { UserBug } from 'src/user_bugs/entities/user_bug.entity';
-import { JoinColumn } from 'typeorm';
+import { JoinColumn, OneToOne } from 'typeorm';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('user_tasks')
@@ -16,6 +17,10 @@ export class UserTask {
   @ManyToOne(() => Task, task => task.id)
   @JoinColumn({ name: 'task_id' })
   task_id: Task;
+
+  @OneToOne(() => ProjectTaskStatus, projectTaskStatus => projectTaskStatus.id)
+  @JoinColumn({ name: 'project_task_status_id' })
+  project_task_status_id: ProjectTaskStatus;
 
   @Column()
   start_date: number;

@@ -1,10 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-import { Task } from 'src/tasks/entities/task.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, JoinColumn, OneToOne } from 'typeorm';
+import { UserTask } from 'src/user-tasks/entities/user-task.entity';
+import { ProjectTaskStatus } from 'src/project_task_status/entities/project_task_status.entity';
 
 @Entity('user_bugs')
 export class UserBug {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @ManyToOne(() => UserTask, (userTask) => userTask.id)
+    @JoinColumn({name: "userTask_id"})
+    userTask_id: UserTask;
+
+    @OneToOne(() => ProjectTaskStatus, projectTaskStatus => projectTaskStatus.id)
+    @JoinColumn({ name: 'project_task_status_id' })
+    project_task_status_id: ProjectTaskStatus;
 
     @Column()
     story_point: number;
@@ -24,18 +33,12 @@ export class UserBug {
     @Column({ type: 'longtext' })
     description: string; 
 
-    @Column({ nullable: true }) 
-    bug_status_id: number;
-
     @CreateDateColumn()
-        createdAt: Date;
+    createdAt: Date;
         
     @UpdateDateColumn()
-        updatedAt: Date;
+    updatedAt: Date;
     
     @DeleteDateColumn()
-        deletedAt: Date;
-
-    @ManyToOne(() => Task, (userTask) => userTask.id)
-    userTask_id: Task;
+    deletedAt: Date;
 }
