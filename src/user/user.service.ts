@@ -44,6 +44,10 @@ export class UserService {
     }
   }
 
+  async logIn(){
+    
+  }
+
   findAll() {
     return `This action returns all user`;
   }

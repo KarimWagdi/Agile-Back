@@ -29,7 +29,7 @@ export class User {
     @Column()
     password: string;
     
-    @Column()
+    @Column({unique: true})
     email: string;
     
     @Column({type: 'enum', enum:UserGender, default:UserGender.Male})
