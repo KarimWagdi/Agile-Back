@@ -11,7 +11,7 @@ export enum AttachmentType {
 @Entity()
 export class UserAttach {
   @PrimaryGeneratedColumn()
-  id: number;
+  attach_id: number;
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: "user_id" })
