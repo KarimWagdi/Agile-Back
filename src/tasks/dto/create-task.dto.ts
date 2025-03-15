@@ -39,13 +39,13 @@ export class CreateTaskDto {
     example: Priority.low,
     description: 'priority',
   })
-  priority?: Priority;
+  priority: Priority;
 
   @IsOptional()
   @IsString()
   @MaxLength(100)
   @ApiProperty({ example: 'description data', description: 'description' })
-  description?: string;
+  description: string;
 
   @IsNotEmpty()
   @IsString()

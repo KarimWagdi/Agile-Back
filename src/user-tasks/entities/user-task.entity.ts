@@ -1,20 +1,21 @@
+import { Task } from 'src/tasks/entities/task.entity';
+import { User } from 'src/user/entities/user.entity';
+import { UserBug } from 'src/user_bugs/entities/user_bug.entity';
 import { JoinColumn } from 'typeorm';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Task } from '../entities/user-task.entity';
-import { UserBug } from '../../user-bugs/entities/user-bug.entity'; 
 
 @Entity('user_tasks')
 export class UserTask {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column()
-  user_id: number;
+  @OneToMany(() => User, user => user.id)
+  @JoinColumn({ name: 'user_id' })
+  user_id: User;
 
   @ManyToOne(() => Task, task => task.id)
   @JoinColumn({ name: 'task_id' })
   task_id: Task;
-
 
   @Column()
   start_date: number;

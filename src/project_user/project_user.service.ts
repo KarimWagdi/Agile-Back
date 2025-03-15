@@ -14,9 +14,7 @@ export class ProjectUserService {
 
   async create(createProjectUserDto: CreateProjectUserDto) {
     try {
-      const newProjectUser = await this.projectUserRepository.save({
-        ...createProjectUserDto,
-      });
+      const newProjectUser = await this.projectUserRepository.save(createProjectUserDto);
       return newProjectUser;
     } catch (error) {
       console.log(error);

@@ -3,10 +3,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
-
 import { RateModule } from './rate/rate.module';
 import { Rate } from './rate/entities/rate.entity';
-
 import { UserBugsModule } from './user_bugs/user_bugs.module';
 import { UserBug } from './user_bugs/entities/user_bug.entity';
 import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
@@ -20,21 +18,14 @@ import { Department } from './departments/entities/department.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
-
-import { UserAttachmentModule } from './user-attachment/user-attachment.module';
-import { UserModule } from './attatch/user/user.module';
-
-
 import { ProjectDepartmentsModule } from './project_departments/project_departments.module';
-
 import { UserTasksModule } from './user-tasks/user-tasks.module';
-
-import * as dotenv from 'dotenv';
 import { ProjectDepartment } from './project_departments/entities/project_department.entity';
-
+import { UserAttach } from './user-attatch/entities/user-attach.entity';
+import { UserTask } from './user-tasks/entities/user-task.entity';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
-
 
 @Module({
   imports: [
@@ -46,32 +37,33 @@ dotenv.config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [
-        User,
-        ProjectTaskStatus,
-        UserBug,
-        Project,
-        ProjectUser,
         Department,
-        Task,
-        Story,
+        Project,
         ProjectDepartment,
-
+        ProjectTaskStatus,
+        ProjectUser,
+        Rate,
+        Story,
+        Task,
+        User,
+        UserBug,
+        UserAttach,
+        UserTask,
       ],
       synchronize: true,
     }),
-    UserModule,
-    RateModule,
-    ProjectTaskStatusModule,
-    UserBugsModule,
-    ProjectModule,
-    ProjectUserModule,
     DepartmentsModule,
-    TasksModule,
-    StoryModule,
-    UserAttachmentModule,
+    ProjectModule,
     ProjectDepartmentsModule,
+    ProjectTaskStatusModule,
+    ProjectUserModule,
+    RateModule,
+    StoryModule,
+    TasksModule,
+    UserModule,
+    UserBugsModule,
+    UserAttach,
     UserTasksModule,
-
   ],
 })
 export class AppModule {}
