@@ -3,6 +3,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+
+import { RateModule } from './rate/rate.module';
+import { Rate } from './rate/entities/rate.entity';
+
 import { UserBugsModule } from './user_bugs/user_bugs.module';
 import { UserBug } from './user_bugs/entities/user_bug.entity';
 import { ProjectTaskStatusModule } from './project_task_status/project_task_status.module';
@@ -19,20 +23,32 @@ import { Project } from './project/entities/project.entity';
 import { UserTasksModule } from './user-tasks/user-tasks.module';
 import * as dotenv from 'dotenv';
 
-dotenv.config()
+
+dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
+      username: process.env.DB_USER,  
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, ProjectTaskStatus, UserBug, Project, ProjectUser, Department, Task, Story],
+      entities: [
+        User,
+        ProjectTaskStatus,
+        UserBug,
+        Project,
+        ProjectUser,
+        Department,
+        Task,
+        Story,
+      ],
       synchronize: true,
     }),
     UserModule,
+      RateModule,
     ProjectTaskStatusModule,
     UserBugsModule,
     ProjectModule,
@@ -42,7 +58,5 @@ dotenv.config()
     StoryModule,
     UserTasksModule,
   ],
-
-
 })
 export class AppModule {}
