@@ -16,9 +16,11 @@ import { Department } from './departments/entities/department.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
+import { ProjectDepartmentsModule } from './project_departments/project_departments.module';
 import * as dotenv from 'dotenv';
+import { ProjectDepartment } from './project_departments/entities/project_department.entity';
 
-dotenv.config()
+dotenv.config();
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -28,7 +30,17 @@ dotenv.config()
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, ProjectTaskStatus, UserBug, Project, ProjectUser, Department, Task, Story],
+      entities: [
+        User,
+        ProjectTaskStatus,
+        UserBug,
+        Project,
+        ProjectUser,
+        Department,
+        Task,
+        Story,
+        ProjectDepartment,
+      ],
       synchronize: true,
     }),
     UserModule,
@@ -39,8 +51,7 @@ dotenv.config()
     DepartmentsModule,
     TasksModule,
     StoryModule,
+    ProjectDepartmentsModule,
   ],
-
-
 })
 export class AppModule {}
