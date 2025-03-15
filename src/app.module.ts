@@ -16,6 +16,7 @@ import { Department } from './departments/entities/department.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { Project } from './project/entities/project.entity';
+import { UserTasksModule } from './user-tasks/user-tasks.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config()
@@ -39,6 +40,7 @@ dotenv.config()
     DepartmentsModule,
     TasksModule,
     StoryModule,
+    UserTasksModule,
   ],
 
 

@@ -20,6 +20,7 @@ export enum Priority {
 }
 @Entity()
 export class Task {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
   // One to one relation with department, need to import the department and check for the reverse relation
