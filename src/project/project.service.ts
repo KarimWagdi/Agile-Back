@@ -8,6 +8,7 @@ import { request } from 'http';
 import { error } from 'console';
 import { promises } from 'dns';
 
+
 @Injectable()
 export class ProjectService {
   constructor(
@@ -17,7 +18,7 @@ export class ProjectService {
   async create(createProjectDto: CreateProjectDto) {
     try{
       const newProject = await this.projectRepository.save({...createProjectDto,});
-      return 'This action adds a new project';
+      return newProject;
     }
     catch(error){
       console.log(error)
@@ -82,3 +83,4 @@ export class ProjectService {
   }
   }
 }
+
