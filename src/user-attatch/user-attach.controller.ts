@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller,Post,Get,Delete,Param,Body,UseGuards, Request, Put,} from '@nestjs/common';
 import { UserAttachService } from './user-attach.service';
 import { CreateUserAttachDto } from './dto/create-user-attach.dto';
 import { UpdateUserAttachDto } from './dto/update-user-attach.dto';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('user')
+@Controller('attachments')
+@UseGuards(AuthGuard('jwt')) // Ensures only authenticated users can access
 export class UserAttachController {
   constructor(private readonly userAttachService: UserAttachService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserAttachDto) {
-    return this.userAttachService.create(createUserDto);
-  }
+  // @Post()
+  // create(@Body() dto: CreateUserAttachDto, @Request() req) {
+  //   return this.userAttachService.create(dto, req.user);
+  // }
 
   @Get()
   findAll() {
     return this.userAttachService.findAll();
   }
 
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userAttachService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserAttachDto) {
-    return this.userAttachService.update(+id, updateUserDto);
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserAttachDto,
+    @Request() req,
+  ) {
+    return this.userAttachService.update(+id, dto, req.user);
   }
 
+  
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userAttachService.remove(+id);
+  delete(@Param('id') id: string, @Request() req) {
+    return this.userAttachService.delete(+id, req.user);
   }
 }
