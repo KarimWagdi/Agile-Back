@@ -2,28 +2,15 @@
 import { User } from "src/user/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export enum AttachmentType {
-  ProfilePicture = 'profile_picture',
-  Document = 'document',
-  BirthCertificate = 'birth_certificate',
-  MilitaryCertificate = 'military_certificate',
-  NationalID = 'national_id',
-  BankAccount = 'bank_account',
-  AddressProof = 'address_proof',
-  Other = 'other',
-}
 
 @Entity('user_attachments') 
 export class UserAttach {
   @PrimaryGeneratedColumn()
-  attach_id: number;
+  id: number;
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: "user_id" })
-  user: User;
-
-  @Column({ type: 'enum', enum: AttachmentType, default: AttachmentType.Other })
-  type: AttachmentType;
+  user_id: User;
 
   @Column({ length: 255 }) 
   file_name: string;
@@ -42,13 +29,14 @@ export class UserAttach {
 
   @Column({ nullable: true })
   military_certificate: string; 
-  @Column({ nullable: true, length: 20 })
+
+  @Column({ nullable: true})
   national_id: number; // National ID Number
 
-  @Column({ nullable: true, length: 50 })
+  @Column({ nullable: true})
   bank_account: number; // Bank Account Number
 
-  @Column({ nullable: true, length: 500 })
+  @Column({ nullable: true})
   address: string; 
 
   @CreateDateColumn({ type: 'timestamp' })
