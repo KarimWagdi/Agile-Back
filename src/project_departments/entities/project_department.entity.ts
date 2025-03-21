@@ -1,6 +1,14 @@
 import { Department } from 'src/departments/entities/department.entity';
 import { Project } from 'src/project/entities/project.entity';
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class ProjectDepartment {
@@ -14,4 +22,13 @@ export class ProjectDepartment {
   @ManyToOne(() => Project, (project) => project.id)
   @JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
   project_id: Project;
+
+  @CreateDateColumn({ type: 'timestamp', precision: 6 })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', nullable: true })
+  updated_at: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deleted_at: Date;
 }
