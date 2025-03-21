@@ -2,23 +2,21 @@ import {Controller,Post,Get,Delete,Param,Body,UseGuards, Request, Put,} from '@n
 import { UserAttachService } from './user-attach.service';
 import { CreateUserAttachDto } from './dto/create-user-attach.dto';
 import { UpdateUserAttachDto } from './dto/update-user-attach.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('attachments')
-@UseGuards(AuthGuard('jwt')) // Ensures only authenticated users can access
+@UseGuards(JwtAuthGuard)// Ensures only authenticated users can access
 export class UserAttachController {
   constructor(private readonly userAttachService: UserAttachService) {}
-
-  // @Post()
-  // create(@Body() dto: CreateUserAttachDto, @Request() req) {
-  //   return this.userAttachService.create(dto, req.user);
-  // }
+  @Post()
+  create(@Body() dto: CreateUserAttachDto, @Request() req) {
+    return this.userAttachService.create(dto);
+  }
 
   @Get()
   findAll() {
     return this.userAttachService.findAll();
   }
-
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -31,12 +29,11 @@ export class UserAttachController {
     @Body() dto: UpdateUserAttachDto,
     @Request() req,
   ) {
-    return this.userAttachService.update(+id, dto, req.user);
+    return this.userAttachService.update(+id, dto);
   }
 
-  
   @Delete(':id')
   delete(@Param('id') id: string, @Request() req) {
-    return this.userAttachService.delete(+id, req.user);
+    return this.userAttachService.delete(+id);
   }
 }

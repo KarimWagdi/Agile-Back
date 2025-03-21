@@ -23,6 +23,7 @@ import { UserTasksModule } from './user-tasks/user-tasks.module';
 import { ProjectDepartment } from './project_departments/entities/project_department.entity';
 import { UserAttach } from './user-attatch/entities/user-attach.entity';
 import { UserTask } from './user-tasks/entities/user-task.entity';
+import { ChatGateway } from './chat/chat.gateway';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -65,5 +66,6 @@ dotenv.config();
     UserAttach,
     UserTasksModule,
   ],
+  providers: [ChatGateway],
 })
 export class AppModule {}
