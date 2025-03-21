@@ -1,19 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller,Post, Get, Patch, Delete,Param,Body, UseGuards,  Request,} from '@nestjs/common';
 import { StoryService } from './story.service';
 import { CreateStoryDto } from './dto/create-story.dto';
 import { UpdateStoryDto } from './dto/update-story.dto';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('story')
+
+@Controller('stories')
+@UseGuards(AuthGuard('jwt')) // Ensures only authenticated users can access
 export class StoryController {
   constructor(private readonly storyService: StoryService) {}
 
   @Post()
-  create(@Body() createStoryDto: CreateStoryDto) {
-    return this.storyService.create(createStoryDto);
+  create(@Body() createStoryDto: CreateStoryDto, @Request() req) {
+    return this.storyService.create(createStoryDto, req.user);
   }
 
   @Get()
-  findAll() {
+  findALL() {
     return this.storyService.findAll();
   }
 
@@ -22,13 +25,13 @@ export class StoryController {
     return this.storyService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateStoryDto: UpdateStoryDto) {
-  //   return this.storyService.update(+id, updateStoryDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateStoryDto: UpdateStoryDto, @Request() req) {
+    return this.storyService.update(+id, updateStoryDto, req.user);
+  }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.storyService.delete(+id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.storyService.delete(+id, req.user);
   }
 }
