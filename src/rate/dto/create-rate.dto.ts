@@ -27,5 +27,4 @@ export class CreateRateDto {
     @IsNumber()
     @ApiProperty()
     rated_by_user_id: User;
-
 }

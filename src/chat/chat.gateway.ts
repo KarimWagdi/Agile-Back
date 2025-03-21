@@ -28,10 +28,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // message.receiver_id= data.sender;
     // message.message= data.text;
     // message.project_id= 1
-    message.sender= data.sender
-    message.text= data.text
-    console.log(data); 
-    await this.messageRepo.save(message)
-    this.server.emit('message', message)
+    // message.sender= data.sender
+    // message.text= data.text
+    // console.log(data); 
+    // await this.messageRepo.save(message)
+    this.server.emit('message', data)
   }
 }

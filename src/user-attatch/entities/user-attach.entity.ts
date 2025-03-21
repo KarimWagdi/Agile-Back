@@ -12,17 +12,9 @@ export class UserAttach {
   @JoinColumn({ name: "user_id" })
   user_id: User;
 
-  @Column({ length: 255 }) 
-  file_name: string;
 
   @Column({ length: 500 }) 
   file_path: string;
-
-  @Column({ type: 'bigint' })
-  file_size: number;
-
-  @Column({ length: 100 }) 
-  mime_type: string; 
 
   @Column({ nullable: true })
   birth_certificate: string; 

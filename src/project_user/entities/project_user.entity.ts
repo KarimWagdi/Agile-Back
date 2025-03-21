@@ -17,11 +17,11 @@ export class ProjectUser {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Project, (project) => project.projectUsers)
+  @ManyToOne(() => Project, (project) => project.id)
   @JoinColumn({ name: 'project_id' })
   project_id: Project;
 
-  @ManyToOne(() => User, (user) => user.projectUsers)
+  @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user_id: User;
 
