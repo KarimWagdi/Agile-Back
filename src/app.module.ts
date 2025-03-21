@@ -24,7 +24,9 @@ import { ProjectDepartment } from './project_departments/entities/project_depart
 import { UserAttach } from './user-attatch/entities/user-attach.entity';
 import { UserTask } from './user-tasks/entities/user-task.entity';
 import { ChatGateway } from './chat/chat.gateway';
+import { MessageModule } from './message/message.module';
 import * as dotenv from 'dotenv';
+import { Message } from './message/entities/message.entity';
 
 dotenv.config();
 
@@ -50,6 +52,7 @@ dotenv.config();
         UserBug,
         UserAttach,
         UserTask,
+        Message
       ],
       synchronize: true,
     }),
@@ -65,6 +68,8 @@ dotenv.config();
     UserBugsModule,
     UserAttach,
     UserTasksModule,
+    MessageModule,
+    TypeOrmModule.forFeature([Message])
   ],
   providers: [ChatGateway],
 })
