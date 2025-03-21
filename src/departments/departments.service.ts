@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +12,9 @@ export class DepartmentsService {
     private readonly departmentsRepository: Repository<Department>,
   ) {}
 
-  async create(createDepartmentDto: CreateDepartmentDto) {
+  async create(createDepartmentDto: CreateDepartmentDto, user: any) {
+    if (user.role !== 'manager')
+      throw new UnauthorizedException('Only manager can create departments.');
     try {
       const newDepartment = await this.departmentsRepository.save({
         ...createDepartmentDto,
@@ -45,7 +47,13 @@ export class DepartmentsService {
     }
   }
 
-  async update(id: number, updateDepartmentDto: UpdateDepartmentDto) {
+  async update(
+    id: number,
+    updateDepartmentDto: UpdateDepartmentDto,
+    user: any,
+  ) {
+    if (user.role !== 'manager')
+      throw new UnauthorizedException('Only manager can update departments.');
     try {
       const department = await this.departmentsRepository.findOne({
         where: { id },
@@ -60,9 +68,11 @@ export class DepartmentsService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number, user: any) {
     try {
-      const department = await this.departmentsRepository.delete(id);
+      if (user.role !== 'manager')
+        throw new UnauthorizedException('Only manager can delete departments.');
+      const department = await this.departmentsRepository.softDelete(id);
       if (department.affected === 0) {
         console.log('This departmen id was not found.');
       }

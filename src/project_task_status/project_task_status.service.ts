@@ -24,15 +24,63 @@ async findAll() {
 }
 
 
-  findOne(id: number) {
-    return `This action returns a #${id} projectTaskStatus`;
-  }
+async findOne(id: number) {
+  try {
+      const taskStatus = await this.projectTaskStatusRepository.findOne({
+          where: { id },
+          relations: ['project'], 
+      });
 
-  update(id: number, updateProjectTaskStatusDto: UpdateProjectTaskStatusDto) {
-    return `This action updates a #${id} projectTaskStatus`;
-  }
+      if (!taskStatus) {
+          console.log(`Project task status with ID ${id} not found`);
+          return { message: `Project task status not found` };
+      }
 
-  remove(id: number) {
-    return `This action removes a #${id} projectTaskStatus`;
+      return taskStatus;
+  } catch (error) {
+      console.log('Error finding project task status:', error);
+      throw error;
   }
+}
+
+
+  async update(id: number, updateProjectTaskStatusDto: UpdateProjectTaskStatusDto) {
+    try {
+        const projectTask = await this.projectTaskStatusRepository.findOne({
+            where: { id }
+        });
+
+        if (!projectTask) {
+            console.log('This Project Task Status ID is not found');
+            return null; 
+        }
+
+        Object.assign(projectTask, updateProjectTaskStatusDto);
+        return await this.projectTaskStatusRepository.save(projectTask);
+    } catch (error) {
+        console.log('Error updating project task status:', error);
+        throw error; 
+    }
+}
+
+
+  async remove(id: number) {
+    try {
+        const projectTask = await this.projectTaskStatusRepository.findOne({ where: { id } });
+
+        if (!projectTask) {
+            console.log(`Project Task Status with ID ${id} not found`);
+            return null;
+        }
+
+        await this.projectTaskStatusRepository.softDelete(id);
+        console.log(`Project Task Status with ID ${id} has been deleted`);
+
+        return { message: `Project Task Status with ID ${id} successfully deleted` };
+    } catch (error) {
+        console.log('Error deleting project task status:', error);
+        throw error;
+    }
+}
+
 }
