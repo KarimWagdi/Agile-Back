@@ -4,6 +4,7 @@ import { UpdateProjectUserDto } from './dto/update-project_user.dto';
 import { ProjectUser } from './entities/project_user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Project } from 'src/project/entities/project.entity';
 
 @Injectable()
 export class ProjectUserService {
@@ -14,16 +15,19 @@ export class ProjectUserService {
 
   async create(createProjectUserDto: CreateProjectUserDto) {
     try {
-      const newProjectUser = await this.projectUserRepository.save(createProjectUserDto);
+      const newProjectUser =
+        await this.projectUserRepository.save(createProjectUserDto);
       return newProjectUser;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async findAll() {
+  async findAll(project_id: Project) {
     try {
-      return await this.projectUserRepository.find();
+      return await this.projectUserRepository.find({
+        where: { project_id, deletedAt: null },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +64,7 @@ export class ProjectUserService {
 
   async remove(id: number) {
     try {
-      const projectUser = await this.projectUserRepository.delete(id);
+      const projectUser = await this.projectUserRepository.softDelete(id);
       if (projectUser.affected === 0) {
         console.log('This project user id was not found.');
       }
