@@ -29,9 +29,9 @@ export class RateService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne() {
     try{
-      const newRate = await this.userRepository.findOne({where:{id}})
+      const newRate = await this.userRepository.findOne({where:{}})
       if (!newRate){
         console.log("Rate not found")
         return newRate;
@@ -59,8 +59,8 @@ export class RateService {
 
   async remove(id: number) {
     try{
-      const newRate = await this.userRepository.delete(id)
-      if (newRate.affected === 0){
+      const deleteRate = await this.userRepository.softDelete(id)
+      if (deleteRate.affected === 0){
         console.log("Rate not found")
       }
       return console.log("Rate Delete successfully")

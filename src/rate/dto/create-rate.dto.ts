@@ -4,7 +4,7 @@ import { User } from "src/user/entities/user.entity";
 
 export class CreateRateDto {
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     @ApiProperty({example: 5, description: "Write Your Rate" })
     rate: number;
         
@@ -27,5 +27,10 @@ export class CreateRateDto {
     @IsNumber()
     @ApiProperty()
     rated_by_user_id: User;
+
+    
+
+
+
 
 }
