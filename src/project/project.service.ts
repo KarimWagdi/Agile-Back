@@ -4,16 +4,15 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from './entities/project.entity';
-import { request } from 'http';
 import { error } from 'console';
-import { promises } from 'dns';
 import { ProjectUser } from 'src/project_user/entities/project_user.entity';
-import { response } from 'express';
+import { Expose, SuccessStatusCodesEnum, ErrorStatusCodesEnum } from 'src/classes';
 
 
 @Injectable()
 export class ProjectService {
   constructor(
+    private readonly response: Expose,
     @InjectRepository(Project)
         private readonly projectRepository: Repository<Project>,
     @InjectRepository(ProjectUser)
@@ -22,20 +21,20 @@ export class ProjectService {
   async create(createProjectDto: CreateProjectDto) {
     try{
       const newProject = await this.projectRepository.save({...createProjectDto,});
-      return newProject;
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", newProject);
     }
     catch(error){
-      console.log(error)
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest)
     }
   }
 
   async findAll(){
     try{
       const projects = await this.projectRepository.find();
-      return projects;
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", projects);
     }
     catch(error){
-      console.log(error)
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest);
     }
   }
 
@@ -44,18 +43,18 @@ export class ProjectService {
       const project = await this.projectRepository.findOne({ where: { id }});
       const isMember = await this.projectUserRepository.findOne({where: { project_id: { id }, user_id: { id: request.user.id }},})
       if (!project) {
-        throw new error(`Project with ID ${id} not found`);
+        return this.response.error(`Project with Id ${id} not found`, ErrorStatusCodesEnum.NotFound)
       }else{
         if(!isMember){
-          throw new error('resource is not authorized')
+          return this.response.error(`Resource not authorized`,ErrorStatusCodesEnum.NotAcceptable)
         }
         else{
-          return project;
+          return this.response.success( SuccessStatusCodesEnum.Ok, `success`, project)
         }
       }
       }
       catch(error){
-        console.log(error)
+        return this.response.error( error, ErrorStatusCodesEnum.BadRequest)
       }
     }
 
@@ -64,14 +63,14 @@ export class ProjectService {
       const projectToUpdate = await this.projectRepository.findOne({ where: { id } });
       
       if (!projectToUpdate) {
-        throw new error(`Project with ID ${id} not found`);
+        return this.response.error(`Project with Id ${id} not found`,ErrorStatusCodesEnum.NotFound)
       }else{
       const updatedProject = await this.projectRepository.update(id, updateProjectDto)
-      return updatedProject
+      return this.response.success( SuccessStatusCodesEnum.Ok, `Project with id ${id} updated successfully`, updatedProject)
       }
     }
     catch(error){
-      console.log(error)
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest)
     }
   }
 
@@ -80,15 +79,15 @@ export class ProjectService {
     const projectToDelete = await this.projectRepository.findOne({ where: { id } });
 
     if (!projectToDelete) {
-      throw new error(`Project with ID ${id} not found`);
+      return this.response.error(`Project with Id ${id} not found`,ErrorStatusCodesEnum.NotFound)
     }
     else{
       await this.projectRepository.delete(id);
+      return this.response.success( SuccessStatusCodesEnum.Ok, `Project with Id ${id} deleted successfully`)
     }
-    return `This action removes a #${id} project`;
   }
   catch(error){
-    console.log(error);
+    return this.response.error(error, ErrorStatusCodesEnum.BadRequest)
   }
   }
 }

@@ -4,10 +4,16 @@ import { UpdateProjectDepartmentDto } from './dto/update-project_department.dto'
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectDepartment } from './entities/project_department.entity';
 import { Repository } from 'typeorm';
+import {
+  ErrorStatusCodesEnum,
+  Expose,
+  SuccessStatusCodesEnum,
+} from 'src/classes';
 
 @Injectable()
 export class ProjectDepartmentsService {
   constructor(
+    private readonly response: Expose,
     @InjectRepository(ProjectDepartment)
     private readonly projectDepartmentRepository: Repository<ProjectDepartment>,
   ) {}
@@ -16,18 +22,28 @@ export class ProjectDepartmentsService {
       const projectDepartment = this.projectDepartmentRepository.create(
         createProjectDepartmentDto,
       );
-      return await this.projectDepartmentRepository.save(projectDepartment);
+      const savedProjectDepartment =
+        await this.projectDepartmentRepository.save(projectDepartment);
+      return this.response.success(
+        SuccessStatusCodesEnum.Ok,
+        'Project Department created successfully',
+        savedProjectDepartment,
+      );
     } catch (error) {
-      throw new error(error);
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest);
     }
   }
 
   async findAll() {
     try {
       const projectDepartments = await this.projectDepartmentRepository.find();
-      return projectDepartments;
+      return this.response.success(
+        SuccessStatusCodesEnum.Ok,
+        'All Project Departments fetched successfully',
+        projectDepartments,
+      );
     } catch (error) {
-      throw new error(error);
+      return this.response.error(error, ErrorStatusCodesEnum.NotFound);
     }
   }
 
@@ -39,9 +55,13 @@ export class ProjectDepartmentsService {
       if (!projectDepartment) {
         throw new Error('projectDepartment not found ');
       }
-      return projectDepartment;
+      return this.response.success(
+        SuccessStatusCodesEnum.Ok,
+        'Project Department fetched successfully',
+        projectDepartment,
+      );
     } catch (error) {
-      throw new error(error);
+      return this.response.error(error, ErrorStatusCodesEnum.NotFound);
     }
   }
 
@@ -56,12 +76,18 @@ export class ProjectDepartmentsService {
       if (!projectDepartment) {
         throw new Error('projectDepartment not found ');
       }
-      return await this.projectDepartmentRepository.update(
-        id,
-        updateProjectDepartmentDto,
+      const updatedProjectDepartment =
+        await this.projectDepartmentRepository.update(
+          id,
+          updateProjectDepartmentDto,
+        );
+      return this.response.success(
+        SuccessStatusCodesEnum.Ok,
+        'Project Department updated successfully',
+        updatedProjectDepartment,
       );
     } catch (error) {
-      throw new error(error);
+      return this.response.error(error, ErrorStatusCodesEnum.NotFound);
     }
   }
 
@@ -75,9 +101,13 @@ export class ProjectDepartmentsService {
       }
       const deletedProjectDepartment =
         await this.projectDepartmentRepository.softDelete(id);
-      return deletedProjectDepartment;
+      return this.response.success(
+        SuccessStatusCodesEnum.Ok,
+        'Project Department removed successfully',
+        deletedProjectDepartment,
+      );
     } catch (error) {
-      throw new error(error);
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest);
     }
   }
 }

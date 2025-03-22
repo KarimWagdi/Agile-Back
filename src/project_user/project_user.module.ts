@@ -1,3 +1,4 @@
+import { Expose } from 'src/classes';
 import { Module } from '@nestjs/common';
 import { ProjectUserService } from './project_user.service';
 import { ProjectUserController } from './project_user.controller';
@@ -9,6 +10,6 @@ import { ProjectUser } from './entities/project_user.entity';
   imports: [TypeOrmModule.forFeature([ProjectUser])],
   exports: [ProjectUserService],
   controllers: [ProjectUserController],
-  providers: [ProjectUserService],
+  providers: [ProjectUserService, Expose],
 })
 export class ProjectUserModule {}
