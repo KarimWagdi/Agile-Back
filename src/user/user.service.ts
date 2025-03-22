@@ -7,7 +7,11 @@ import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
-import { Expose, SuccessStatusCodesEnum, ErrorStatusCodesEnum } from 'src/classes';
+import {
+  Expose,
+  SuccessStatusCodesEnum,
+  ErrorStatusCodesEnum,
+} from 'src/classes';
 
 @Injectable()
 export class UserService {
@@ -16,9 +20,9 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: AuthService,
-  ){}
+  ) {}
   async create(createUserDto: CreateUserDto) {
-    try{
+    try {
       const hashPass = await bcrypt.hash(createUserDto.password, 10);
       const newUser = await this.userRepository.save({...createUserDto, password: hashPass });
       const access_token = await this.jwtService.generateAccessToken(newUser.id)
@@ -27,24 +31,25 @@ export class UserService {
     }catch(error){
 
       return this.response.error(error, ErrorStatusCodesEnum.BadRequest )
+
     }
   }
 
-
-  async updateAccessToken(userId: number, accessToken: string){
-    try{
-      const user = await this.userRepository.findOne({where:{id:userId}});
-      if(!user){
+  async updateAccessToken(userId: number, accessToken: string) {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
         console.log('User not found');
         return;
       }
       user.accessToken = accessToken;
       await this.userRepository.save(user);
       return user;
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
+
 
   async logIn(loginDto: LoginDto){
     try{
@@ -69,8 +74,7 @@ export class UserService {
   }
 
   findOne(id: number) {
-
-    return this.userRepository.findOne({where:{id: id}});
+    return this.userRepository.findOne({ where: { id: id } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
