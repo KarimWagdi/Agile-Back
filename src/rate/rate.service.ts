@@ -18,7 +18,7 @@ export class RateService {
   async create(createRateDto: CreateRateDto) {
     try{
       const newRate = await this.userRepository.save(createRateDto)
-      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", newRate);
+      return this.response.success( SuccessStatusCodesEnum.Created, "Created Successfully", newRate);
     }catch(err){
       return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
     };
@@ -26,8 +26,10 @@ export class RateService {
 
  async findAll() {
     try{
-      return await this.userRepository.find()
-    }catch(err){
+      const findAllRates = await this.userRepository.find({})
+      if (!findAllRates){
+        return this.response.error( "RateNotFound" , ErrorStatusCodesEnum.BadRequest )
+    }}catch(err){
       return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
     }
   }
