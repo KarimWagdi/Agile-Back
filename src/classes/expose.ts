@@ -80,8 +80,8 @@ export class Expose{
     }
 
     error(
-        message:ErrorStatusCodesEnum,
-        statusCode:400,
+        message:string,
+        statusCode:ErrorStatusCodesEnum,
     ): Response {
         throw new HttpException({message, statusCode}, statusCode)
     }
