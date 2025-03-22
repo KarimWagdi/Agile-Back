@@ -1,14 +1,6 @@
 import { Project } from './../../project/entities/project.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn } from "typeorm";
 
-export enum TaskStatus {
-    Pending = 'pending',
-    InProgress = 'in_progress',
-    Completed = 'completed',
-    OnHold = 'on_hold',
-    Canceled = 'canceled'
-}
-
 @Entity()
 export class ProjectTaskStatus {
     @PrimaryGeneratedColumn()
@@ -19,7 +11,7 @@ export class ProjectTaskStatus {
      project_id: Project;
     
 
-    @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.Pending })
+    @Column()
     status: string;
 
     @CreateDateColumn()
@@ -30,7 +22,4 @@ export class ProjectTaskStatus {
 
     @DeleteDateColumn()
     deletedAt: Date;
-
-   
-
 }

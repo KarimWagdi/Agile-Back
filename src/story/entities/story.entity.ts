@@ -1,5 +1,5 @@
 
-import { Task } from 'src/tasks/entities/task.entity';
+import { Priority, Task } from 'src/tasks/entities/task.entity';
 import {
   Column,
   CreateDateColumn,
@@ -21,25 +21,24 @@ export class Story {
   @Column()
   title: string;
 
-  
-     @Column()
-     description: string;
+  @Column()
+  description: string;
    
-     @Column()
-      story_point: string;
-    
-      @Column()
-        priority: number;
-        
-       @CreateDateColumn()
-        createdAt: Date;
-       
-       @UpdateDateColumn()
-       updatedAt: Date;
-    
-      @DeleteDateColumn()
-      deletedAt: Date;
-       
-      @OneToMany(() => Task, (task) => task.userStory_id)
-        tasks: Task[];
+  @Column()
+  story_point: number;
+  
+  @Column()
+  priority: Priority;
+      
+  @CreateDateColumn()
+  createdAt: Date;
+     
+  @UpdateDateColumn()
+  updatedAt: Date;
+  
+  @DeleteDateColumn()
+  deletedAt: Date;
+     
+  @OneToMany(() => Task, (task) => task.userStory_id)
+  tasks: Task[];
 }
