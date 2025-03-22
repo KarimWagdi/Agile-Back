@@ -31,7 +31,12 @@ export class ProjectService {
   async findAll(){
     try{
       const projects = await this.projectRepository.find();
-      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", projects);
+      if(!projects){
+        return this.response.error(`No Projects found`, ErrorStatusCodesEnum.NotFound)
+      }
+      else{
+        return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", projects);
+      }
     }
     catch(error){
       return this.response.error(error, ErrorStatusCodesEnum.BadRequest);
