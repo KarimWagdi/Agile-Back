@@ -25,6 +25,7 @@ export class UserService {
       const res = {newUser, access_token}
       return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
     }catch(error){
+
       return this.response.error(error, ErrorStatusCodesEnum.BadRequest )
     }
   }
