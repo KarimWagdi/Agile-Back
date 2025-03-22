@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserTaskDto } from './dto/create-user-task.dto';
 import { UpdateUserTaskDto } from './dto/update-user-task.dto';
-import { ResponseService } from '../interfaces/response.interface'; 
-import { ErrorStatusCodesEnum } from '../classes/expose'; 
+import { ErrorStatusCodesEnum, Expose } from '../classes/expose'; 
 
 @Injectable()
 export class UserTasksService {
-  constructor(private readonly response: ResponseService) {}
+  constructor(private readonly response: Expose) {}
 
   create(createUserTaskDto: CreateUserTaskDto) {
     try {

@@ -10,7 +10,7 @@ import { error } from 'node:console';
 
 @Injectable()
 export class RateService {
-  response: any;
+  response: Expose;
   constructor(
       @InjectRepository(Rate)
       private readonly userRepository: Repository<Rate>,
@@ -20,7 +20,7 @@ export class RateService {
       const newRate = await this.userRepository.save(createRateDto)
       return this.response.success( SuccessStatusCodesEnum.Created, "Created Successfully", newRate);
     }catch(err){
-      return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
+      return this.response.error( err, ErrorStatusCodesEnum.BadRequest )
     };
   }
 
@@ -30,7 +30,7 @@ export class RateService {
       if (!findAllRates){
         return this.response.error( "RateNotFound" , ErrorStatusCodesEnum.BadRequest )
     }}catch(err){
-      return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
+      return this.response.error( err, ErrorStatusCodesEnum.BadRequest )
     }
   }
 
@@ -41,7 +41,7 @@ export class RateService {
         return this.response.error( "RateNotFound" , ErrorStatusCodesEnum.BadRequest )
       }
     }catch(err){
-      return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
+      return this.response.error( err, ErrorStatusCodesEnum.BadRequest )
     }
   }
 
@@ -54,7 +54,7 @@ export class RateService {
     Object.assign(newRate, updateRateDto);
     return this.response.success( SuccessStatusCodesEnum.Ok, "Updated Successfully", newRate);
   }catch(err){
-    return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
+    return this.response.error( err, ErrorStatusCodesEnum.BadRequest )
   }
 
   }
@@ -67,7 +67,7 @@ export class RateService {
       }
       return this.response.success( SuccessStatusCodesEnum.Ok, "Deleted Successfully");
     }catch(err){
-      return this.response.error( error, ErrorStatusCodesEnum.BadRequest )
+      return this.response.error( err, ErrorStatusCodesEnum.BadRequest )
     }
   }
 }
