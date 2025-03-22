@@ -25,7 +25,8 @@ export class UserService {
       const res = {newUser, access_token}
       return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
     }catch(error){
-      return this.response.error( error ,ErrorStatusCodesEnum.BadRequest,)
+
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest )
     }
   }
 
@@ -49,16 +50,17 @@ export class UserService {
     try{
       const user = await this.userRepository.findOne({where:{email:loginDto.email}})
       if(!user){
-        return "email not found"
+        return this.response.error("email not found", ErrorStatusCodesEnum.BadRequest )
       }
       const correctPass = await bcrypt.compare(loginDto.password,user.password);
       if(!correctPass){
-        return "wrong password"
+        return this.response.error("wrong password", ErrorStatusCodesEnum.BadRequest )
       }
       const accessToken = await this.jwtService.generateAccessToken({id: user.id})
-      return {accessToken, user}
+      const res =  {accessToken, user}
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
     }catch(err){
-      return err 
+      return this.response.error("email not found", ErrorStatusCodesEnum.InternalServerError )
     }
   }
 
