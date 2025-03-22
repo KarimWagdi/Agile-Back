@@ -1,5 +1,6 @@
 import { Department } from 'src/departments/entities/department.entity';
 import { Story } from 'src/story/entities/story.entity';
+import { UserTask } from 'src/user-tasks/entities/user-task.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +9,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,7 +22,6 @@ export enum Priority {
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;
-  
   // One to one relation with department, need to import the department and check for the reverse relation
   @ManyToOne(() => Department, (department) => department.id)
   @JoinColumn({ name: 'department_id'})
@@ -33,7 +32,9 @@ export class Task {
   @JoinColumn({ name: 'userStory_id' })
   userStory_id: Story;
 
-  //inverse relation with user_tasks needed
+  //inverse relation with user_tasks
+  @OneToMany(() => UserTask, (userTask) => userTask.task_id)
+  userTask: UserTask[];
 
   @Column({ type: 'int', default: 1 })
   story_point: number;
@@ -61,5 +62,4 @@ export class Task {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
-
 }
