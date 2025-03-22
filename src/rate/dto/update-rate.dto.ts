@@ -1,7 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateRateDto } from './create-rate.dto';
-import { IsNotEmpty, IsString, IsDate, IsNumber } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
+
 
 export class UpdateRateDto extends PartialType(CreateRateDto) {
     @IsNotEmpty()
