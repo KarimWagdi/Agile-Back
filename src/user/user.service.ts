@@ -7,23 +7,25 @@ import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Expose, SuccessStatusCodesEnum, ErrorStatusCodesEnum } from 'src/classes';
 
 @Injectable()
 export class UserService {
   constructor(
+    private readonly response: Expose,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: AuthService,
   ){}
   async create(createUserDto: CreateUserDto) {
-
     try{
       const hashPass = await bcrypt.hash(createUserDto.password, 10);
       const newUser = await this.userRepository.save({...createUserDto, password: hashPass });
       const access_token = await this.jwtService.generateAccessToken(newUser.id)
-      return newUser
+      const res = {newUser, access_token}
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
     }catch(error){
-      return error
+      return this.response.error(ErrorStatusCodesEnum.BadRequest, error )
     }
   }
 
