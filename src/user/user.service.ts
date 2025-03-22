@@ -24,21 +24,14 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     try {
       const hashPass = await bcrypt.hash(createUserDto.password, 10);
-      const newUser = await this.userRepository.save({
-        ...createUserDto,
-        password: hashPass,
-      });
-      const access_token = await this.jwtService.generateAccessToken(
-        newUser.id,
-      );
-      const res = { newUser, access_token };
-      return this.response.success(
-        SuccessStatusCodesEnum.Ok,
-        'Created Successfully',
-        res,
-      );
-    } catch (error) {
-      return this.response.error(error, ErrorStatusCodesEnum.BadRequest);
+      const newUser = await this.userRepository.save({...createUserDto, password: hashPass });
+      const access_token = await this.jwtService.generateAccessToken(newUser.id)
+      const res = {newUser, access_token}
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
+    }catch(error){
+
+      return this.response.error(error, ErrorStatusCodesEnum.BadRequest )
+
     }
   }
 
@@ -57,27 +50,22 @@ export class UserService {
     }
   }
 
-  async logIn(loginDto: LoginDto) {
-    try {
-      const user = await this.userRepository.findOne({
-        where: { email: loginDto.email },
-      });
-      if (!user) {
-        return 'email not found';
+
+  async logIn(loginDto: LoginDto){
+    try{
+      const user = await this.userRepository.findOne({where:{email:loginDto.email}})
+      if(!user){
+        return this.response.error("email not found", ErrorStatusCodesEnum.BadRequest )
       }
-      const correctPass = await bcrypt.compare(
-        loginDto.password,
-        user.password,
-      );
-      if (!correctPass) {
-        return 'wrong password';
+      const correctPass = await bcrypt.compare(loginDto.password,user.password);
+      if(!correctPass){
+        return this.response.error("wrong password", ErrorStatusCodesEnum.BadRequest )
       }
-      const accessToken = await this.jwtService.generateAccessToken({
-        id: user.id,
-      });
-      return { accessToken, user };
-    } catch (err) {
-      return err;
+      const accessToken = await this.jwtService.generateAccessToken({id: user.id})
+      const res =  {accessToken, user}
+      return this.response.success( SuccessStatusCodesEnum.Ok, "Created Successfully", res);
+    }catch(err){
+      return this.response.error("email not found", ErrorStatusCodesEnum.InternalServerError )
     }
   }
 

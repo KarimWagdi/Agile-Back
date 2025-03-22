@@ -77,9 +77,13 @@ export class Expose {
     return { statusCode, message, data, status };
   }
 
-  error(message: string, statusCode: ErrorStatusCodesEnum): Response {
-    throw new HttpException({ message, statusCode }, statusCode);
-  }
+
+    error(
+        message:string,
+        statusCode:ErrorStatusCodesEnum,
+    ): Response {
+        throw new HttpException({message, statusCode}, statusCode)
+    }
 
   notify(
     statusCode: ErrorStatusCodesEnum | SuccessStatusCodesEnum,
