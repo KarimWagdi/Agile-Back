@@ -2,36 +2,41 @@
 import { User } from "src/user/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export enum AttachmentType {
-  ProfilePicture = 'profile_picture',
-  Document = 'document',
-  Other = 'other',
-}
 
-@Entity()
+@Entity('user_attachments') 
 export class UserAttach {
   @PrimaryGeneratedColumn()
-  attach_id: number;
+  id: number;
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: "user_id" })
-  user: User;
+  user_id: User;
 
-  @Column()
-  file_name: string;
 
-  @Column()
+  @Column({ length: 500 }) 
   file_path: string;
 
-  @Column()
-  file_size: number; 
+  @Column({ nullable: true })
+  birth_certificate: string; 
 
-  @CreateDateColumn()
+  @Column({ nullable: true })
+  military_certificate: string; 
+
+  @Column({ nullable: true})
+  national_id: number; // National ID Number
+
+  @Column({ nullable: true})
+  bank_account: number; // Bank Account Number
+
+  @Column({ nullable: true})
+  address: string; 
+
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 }

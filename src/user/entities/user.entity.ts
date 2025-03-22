@@ -1,5 +1,7 @@
 
 import { Department } from "src/departments/entities/department.entity";
+import { Message } from "src/message/entities/message.entity";
+import { Project } from "src/project/entities/project.entity";
 import { ProjectUser } from "src/project_user/entities/project_user.entity";
 import { Rate } from "src/rate/entities/rate.entity";
 import { UserTask } from "src/user-tasks/entities/user-task.entity";
@@ -11,7 +13,9 @@ export enum UserGender {
 }
 export enum UserRole {
   Manager = 'manager',
-  Developer = 'developer'
+  Developer = 'developer',
+  Tester = 'tester',
+  Designer = 'designer',
 }
 
 @Entity()
@@ -74,4 +78,12 @@ export class User {
     @OneToMany(()=> Rate, rate => rate.rated_by_id)
     usersRatedByUser: Rate[];
 
+    @OneToMany(()=> Message, message => message.sender_id)
+    messageSend: Message[];
+
+    @OneToMany(()=> Message, message => message.receiver_id)
+    messageReceived: Message[];
+
+    @OneToOne(()=> Project, project => project.client_id)
+    project: Project;
 }

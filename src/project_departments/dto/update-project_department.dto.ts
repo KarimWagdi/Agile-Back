@@ -35,4 +35,5 @@ export class UpdateProjectDepartmentDto extends PartialType(
   @IsDate()
   @Type(() => Date)
   deleted_at?: Date;
+
 }

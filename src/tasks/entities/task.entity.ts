@@ -24,34 +24,34 @@ export class Task {
   id: number;
   // One to one relation with department, need to import the department and check for the reverse relation
   @ManyToOne(() => Department, (department) => department.id)
-  @JoinColumn({ name: 'department_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'department_id'})
   department_id: Department;
 
   // One to one relation with UserStory, need to import the UserStory and check for the reverse relation
   @ManyToOne(() => Story, (userStory) => userStory.id)
-  @JoinColumn({ name: 'userStory_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'userStory_id' })
   userStory_id: Story;
 
   //inverse relation with user_tasks
   @OneToMany(() => UserTask, (userTask) => userTask.task_id)
   userTask: UserTask[];
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'int', default: 1 })
   story_point: number;
 
-  @Column({ type: 'double', default: 0 })
+  @Column({ type: 'double', default: 2 })
   working_hours: number;
 
   @Column({ type: 'enum', enum: Priority, default: Priority.low })
   priority: Priority;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   description: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   comment: string;
 
   @CreateDateColumn({ type: 'timestamp', precision: 6 })

@@ -1,15 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller,Post,Get,Delete,Param,Body,UseGuards, Request, Put,} from '@nestjs/common';
 import { UserAttachService } from './user-attach.service';
 import { CreateUserAttachDto } from './dto/create-user-attach.dto';
 import { UpdateUserAttachDto } from './dto/update-user-attach.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
-@Controller('user')
+@Controller('attachments')
+@UseGuards(JwtAuthGuard)// Ensures only authenticated users can access
 export class UserAttachController {
   constructor(private readonly userAttachService: UserAttachService) {}
-
   @Post()
-  create(@Body() createUserDto: CreateUserAttachDto) {
-    return this.userAttachService.create(createUserDto);
+  create(@Body() dto: CreateUserAttachDto, @Request() req) {
+    return this.userAttachService.create(dto);
   }
 
   @Get()
@@ -22,13 +23,17 @@ export class UserAttachController {
     return this.userAttachService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserAttachDto) {
-    return this.userAttachService.update(+id, updateUserDto);
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserAttachDto,
+    @Request() req,
+  ) {
+    return this.userAttachService.update(+id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userAttachService.remove(+id);
+  delete(@Param('id') id: string, @Request() req) {
+    return this.userAttachService.delete(+id);
   }
 }
